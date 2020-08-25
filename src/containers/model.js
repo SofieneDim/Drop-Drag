@@ -4,6 +4,7 @@ import './model.css';
 
 const model = props => {
 
+    
     return (
         <div
             className="model-container"

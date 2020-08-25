@@ -82,35 +82,53 @@ class App extends React.Component {
 
   render() {
 
-    // this.dragStart("e", 134)
-    console.log('this.state.styles[model.id]', this.state.styles[1])
-
     const domModels = this.state.models.map(model =>
       <div
-        title={model.title}
-        key={model.id}
-        className="model-container"
-        // style={this.state.styles[model.id]}
-        style={this.state.styles[model.id]}
-        model={model}
-        onMouseDown={(e) => this.dragStart(e, model.id)}
-        onMouseMove={(e) => this.dragging(e, model.id)}
-        onMouseUp={this.dragEnd}
-      />
+          className="model-container_2"
+          style={this.state.styles[model.id]}
+          onMouseDown={(e) => this.dragStart(e, model.id)}
+          onMouseMove={(e) => this.dragging(e, model.id)}
+          onMouseUp={this.dragEnd}
+        >
+          <Model
+            title={model.title}
+            key={model.id}
+            className="model-container"
+            style={this.state.styles[model.id]}
+            model={{model}}
+            onMouseDown={(e) => this.dragStart(e, model.id)}
+            onMouseMove={(e) => this.dragging(e, model.id)}
+            onMouseUp={this.dragEnd}
+          />
+        </div>
     )
-    console.log('this.state.styles', this.state.styles[5])
 
     return (
       <div className="App">
-        {/* {domModels} */}
-        <div
-          className="model-container"
+        {domModels}
+
+        {/* <div
+          className="model-container_2"
           style={this.state.styles[1]}
           onMouseDown={(e) => this.dragStart(e, 1)}
           onMouseMove={(e) => this.dragging(e, 1)}
           onMouseUp={this.dragEnd}
         >
-        </div>
+          <Model
+            title={"model.title"}
+            key={"model.id"}
+            className="model-container"
+            style={this.state.styles[1]}
+            model={{
+              title: "first",
+              id: 1,
+              bgColor: "red"
+            }}
+            onMouseDown={(e) => this.dragStart(e, 1)}
+            onMouseMove={(e) => this.dragging(e, 1)}
+            onMouseUp={this.dragEnd}
+          />
+        </div> */}
 
         {/* <button onClick={this.addItem}>
         Add
