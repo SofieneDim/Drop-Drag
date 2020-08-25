@@ -84,7 +84,8 @@ class App extends React.Component {
 
     const domModels = this.state.models.map(model =>
       <div
-          className="model-container_2"
+          className="model-container"
+          key={model.id}
           style={this.state.styles[model.id]}
           onMouseDown={(e) => this.dragStart(e, model.id)}
           onMouseMove={(e) => this.dragging(e, model.id)}
@@ -95,7 +96,7 @@ class App extends React.Component {
             key={model.id}
             className="model-container"
             style={this.state.styles[model.id]}
-            model={{model}}
+            model={model}
             onMouseDown={(e) => this.dragStart(e, model.id)}
             onMouseMove={(e) => this.dragging(e, model.id)}
             onMouseUp={this.dragEnd}
