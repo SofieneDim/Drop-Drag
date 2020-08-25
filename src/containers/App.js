@@ -55,7 +55,7 @@ class App extends React.Component {
   dragging = (e, id) => {
     const styles = this.state.styles;
 
-    if (this.state.dragging) {
+    if (this.state.dragging && this.state.stylePos[id]) {
       var left = e.screenX - this.state.stylePos[id].diffX;
       var top = e.screenY - this.state.stylePos[id].diffY;
 
@@ -77,63 +77,53 @@ class App extends React.Component {
   }
 
   addItem = () => {
-
+    const models = this.state.models;
+    models.push(
+      {
+        title: "fivth",
+        id: models.length + 1,
+        bgColor: "grey"
+      }
+    );
+    this.setState({models})
   }
 
   render() {
 
     const domModels = this.state.models.map(model =>
       <div
-          className="model-container"
+        className="model-container"
+        key={model.id}
+        style={this.state.styles[model.id]}
+        onMouseDown={(e) => this.dragStart(e, model.id)}
+        onMouseMove={(e) => this.dragging(e, model.id)}
+        onMouseUp={this.dragEnd}
+      >
+        <Model
+          title={model.title}
           key={model.id}
+          className="model-container"
           style={this.state.styles[model.id]}
+          model={model}
           onMouseDown={(e) => this.dragStart(e, model.id)}
           onMouseMove={(e) => this.dragging(e, model.id)}
           onMouseUp={this.dragEnd}
-        >
-          <Model
-            title={model.title}
-            key={model.id}
-            className="model-container"
-            style={this.state.styles[model.id]}
-            model={model}
-            onMouseDown={(e) => this.dragStart(e, model.id)}
-            onMouseMove={(e) => this.dragging(e, model.id)}
-            onMouseUp={this.dragEnd}
-          />
-        </div>
+        />
+      </div>
     )
 
     return (
       <div className="App">
+
         {domModels}
 
-        {/* <div
-          className="model-container_2"
-          style={this.state.styles[1]}
-          onMouseDown={(e) => this.dragStart(e, 1)}
-          onMouseMove={(e) => this.dragging(e, 1)}
-          onMouseUp={this.dragEnd}
-        >
-          <Model
-            title={"model.title"}
-            key={"model.id"}
-            className="model-container"
-            style={this.state.styles[1]}
-            model={{
-              title: "first",
-              id: 1,
-              bgColor: "red"
-            }}
-            onMouseDown={(e) => this.dragStart(e, 1)}
-            onMouseMove={(e) => this.dragging(e, 1)}
-            onMouseUp={this.dragEnd}
-          />
-        </div> */}
 
-        {/* <button onClick={this.addItem}>
-        Add
-        </button> */}
+        <button
+          onClick={this.addItem}
+          style={{ margin: "100px 200px"}}
+        >
+          Add
+        </button>
       </div>
     );
   };
