@@ -6,43 +6,69 @@ class App extends React.Component {
 
   state = {
     models: [
-      { title: "first" },
-      { title: "second" },
-      { title: "third" },
-      { title: "forth" },
-      { title: "fivth" },
-      { title: "six" },
-      { title: "seventh" },
+      {
+        title: "first",
+        id: 1,
+        bgColor: "red"
+      },
+      {
+        title: "second",
+        id: 2,
+        bgColor: "yellow"
+      },
+      {
+        title: "third",
+        id: 3,
+        bgColor: "blue"
+      },
+      {
+        title: "forth",
+        id: 4,
+        bgColor: "green"
+      },
+      {
+        title: "fivth",
+        id: 5,
+        bgColor: "brown"
+      },
     ],
     diffX: 0,
     diffY: 0,
     dragging: false,
     styles: {},
+    stylePos: {},
   };
 
-  dragStart = e => {
-    console.log("eeee")
-    this.setState({
+  dragStart = (e, id) => {
+    const stylePos = this.state.stylePos;
+    stylePos[id] = {
+      ...this.state.stylePos,
       diffX: e.screenX - e.currentTarget.getBoundingClientRect().left,
       diffY: e.screenY - e.currentTarget.getBoundingClientRect().top,
-      dragging: true
-    })
+    }
+    this.setState({
+      stylePos,
+      dragging: true,
+    });
+  };
+
+  dragging = (e, id) => {
+    const styles = this.state.styles;
+
+    if (this.state.dragging) {
+      var left = e.screenX - this.state.stylePos[id].diffX;
+      var top = e.screenY - this.state.stylePos[id].diffY;
+
+
+      styles[id] = {
+        left: left,
+        top: top,
+      }
+      this.setState(styles);
+    }
+
   }
 
-  dragging = e => {
-
-    if(this.state.dragging) {
-      var left = e.screenX - this.state.diffX;
-      var top = e.screenY - this.state.diffY;
-
-      this.setState({
-          styles: {
-              left: left,
-              top: top
-          }
-      });
-  }
-  }
 
   dragEnd = () => {
     this.setState({
@@ -50,31 +76,45 @@ class App extends React.Component {
     });
   }
 
+  addItem = () => {
+
+  }
+
   render() {
 
+    // this.dragStart("e", 134)
+    console.log('this.state.styles[model.id]', this.state.styles[1])
+
     const domModels = this.state.models.map(model =>
-      <Model
+      <div
         title={model.title}
-        style={this.state.styles}
-        onMouseDown={this.dragStart}
-        onMouseMove={this.dragging}
+        key={model.id}
+        className="model-container"
+        // style={this.state.styles[model.id]}
+        style={this.state.styles[model.id]}
+        model={model}
+        onMouseDown={(e) => this.dragStart(e, model.id)}
+        onMouseMove={(e) => this.dragging(e, model.id)}
         onMouseUp={this.dragEnd}
-      />)
+      />
+    )
+    console.log('this.state.styles', this.state.styles[5])
 
     return (
       <div className="App">
         {/* {domModels} */}
         <div
           className="model-container"
-          style={this.state.styles}
-          onMouseDown={this.dragStart}
-          onMouseMove={this.dragging}
+          style={this.state.styles[1]}
+          onMouseDown={(e) => this.dragStart(e, 1)}
+          onMouseMove={(e) => this.dragging(e, 1)}
           onMouseUp={this.dragEnd}
         >
-          <Model
-            title={"model.title"}
-          />
         </div>
+
+        {/* <button onClick={this.addItem}>
+        Add
+        </button> */}
       </div>
     );
   };
