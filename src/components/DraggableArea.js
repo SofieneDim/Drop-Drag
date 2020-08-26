@@ -70,18 +70,13 @@ class App extends React.Component {
     if (!this.state.firstLinkTaskId)
       return this.setState({ firstLinkTaskId: taskId });
     else {
-      await this.setState({secondLinkTaskId: taskId});
+      await this.setState({ secondLinkTaskId: taskId });
       const task = this.props.tasks.domTasks.filter(item => item.id === this.state.firstLinkTaskId)[0];
-      console.log('task', task)
       this.props.updateTask({
         task,
         link: this.state.secondLinkTaskId,
       });
-      console.log('this.state.secondLinkTaskId', this.state.secondLinkTaskId)
-
-
-
-      this.setState({ linkMode: false, firstLinkTaskId: null, secondLinkTaskId: null});
+      this.setState({ linkMode: false, firstLinkTaskId: null, secondLinkTaskId: null });
     };
   };
 
@@ -118,6 +113,49 @@ class App extends React.Component {
     this.props.addNewTask(taskModel);
   };
 
+
+
+  componentDidMount = () => this.componentDidUpdate();
+
+
+  componentDidUpdate = () => {
+    const ctx = document.getElementById("c").getContext("2d");
+    ctx.beginPath();
+
+
+    const domTask_1 = document.getElementById(12);
+    const domTask_2 = document.getElementById(22);
+    if (!domTask_1) return
+
+    const fromx = domTask_1.getBoundingClientRect().x + 30;
+    const fromy = domTask_1.getBoundingClientRect().y + 30;
+
+    const tox = domTask_2.getBoundingClientRect().x + 30;
+    const toy = domTask_2.getBoundingClientRect().y + 30;
+
+
+
+
+    canvas_arrow(ctx, fromx, fromy, tox, toy);
+    ctx.stroke();
+
+
+    function canvas_arrow(context, fromx, fromy, tox, toy) {
+      var headlen = 10; // length of head in pixels
+      var dx = tox - fromx;
+      var dy = toy - fromy;
+      var angle = Math.atan2(dy, dx);
+      context.moveTo(fromx, fromy);
+      context.lineTo(tox, toy);
+      context.lineTo(tox - headlen * Math.cos(angle - Math.PI / 6), toy - headlen * Math.sin(angle - Math.PI / 6));
+      context.moveTo(tox, toy);
+      context.lineTo(tox - headlen * Math.cos(angle + Math.PI / 6), toy - headlen * Math.sin(angle + Math.PI / 6));
+    };
+  };
+
+
+
+
   render() {
     const initialPosition = { left: "100px", top: "100px" };
     const domModels = this.props.tasks.domTasks.map(task => {
@@ -127,7 +165,8 @@ class App extends React.Component {
       return <div
         className={classes}
         key={task.id}
-        style={this.state.styles[task.id] ? this.state.styles[task.id] : initialPosition}
+        id={task.id}
+        style={this.state.styles[task.id] ? this.state.styles[task.id] : initialPosition }
         onMouseDown={(e) => this.dragStart(e, task.id)}
         onMouseMove={(e) => this.dragging(e, task.id)}
         onMouseUp={this.dragEnd}
@@ -137,8 +176,7 @@ class App extends React.Component {
           key={task.id}
         />
       </div>
-    }
-    )
+    });
 
     return (
       <div className="Row">
