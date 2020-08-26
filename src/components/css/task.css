@@ -1,0 +1,7 @@
+.tasks-container {
+  height: 50px;
+  width: 70px;
+  color: blueviolet;
+  position: absolute;
+  cursor: move;
+}

@@ -1,0 +1,19 @@
+.side-bar {
+  height: 100%;
+  width: min-content;
+  background-color: aqua;
+}
+
+#side-bar-title {
+  margin: 10px 0 !important;
+}
+
+#task-icon {
+  height: 50px;
+  width: 50px;
+  margin: 10px 0;
+}
+
+#side-bar-button {
+  margin: 10px 0;
+}
