@@ -1,7 +1,21 @@
 .tasks-container {
-  height: 50px;
-  width: 70px;
-  color: blueviolet;
+  color: rgb(0, 0, 0);
   position: absolute;
   cursor: move;
+}
+
+.tasks-container-border{
+  color: rgb(10, 10, 10);
+  position: absolute;
+  cursor: pointer;
+  border: cornflowerblue solid 2px;
+  /* background-color: crimson; */
+}
+
+.tasks-container-border-bg{
+  color: rgb(10, 10, 10);
+  position: absolute;
+  cursor: move;
+  border: cornflowerblue solid 2px;
+  background-color: crimson;
 }

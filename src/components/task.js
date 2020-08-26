@@ -7,14 +7,20 @@ const task = props => {
 
     return (
         <div
-            className="col-md-12"
+            className="col-md-12 row"
             key={props.task.id}
         >
-            <img id="task-icon"
-                alt="" src={props.task.icon}
-                style={{ pointerEvents: "none", backgroundColor: props.task.color }}
-            />
-            <label>{props.task.title}</label>
+            <div className="col-md-12">
+                <img id="task-icon"
+                    alt="" src={props.task.icon}
+                    style={{ pointerEvents: "none", backgroundColor: props.task.color }}
+                />
+            </div>
+            <div className="col-md-12">
+                <label>{props.task.title}</label>
+            </div>
+
+
         </div>
     )
 }

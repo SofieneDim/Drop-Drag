@@ -1,10 +1,19 @@
 import * as actionsTypes from './actionsTypes';
 
-export const addTask = taskModel => {
+export const addTask = task => {
     return dispatch => {
         dispatch({
             type: actionsTypes.ADD_TASK,
-            data: taskModel
+            data: task
+        });
+    };
+};
+
+export const updateTask = data => {
+    return dispatch => {
+        dispatch({
+            type: actionsTypes.UPDATE_TASK,
+            data: data
         });
     };
 };

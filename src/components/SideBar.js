@@ -31,6 +31,9 @@ class sideBar extends React.Component {
                 >
                     Tools
                 </span>
+                <button onClick={this.props.linkMode}>
+                    Link Tasks
+                </button>
                 {values}
             </div>
         );
