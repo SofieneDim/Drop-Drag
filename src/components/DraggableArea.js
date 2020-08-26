@@ -81,6 +81,7 @@ class App extends React.Component {
   };
 
   dragging = (e, id) => {
+    // this.props.dragging();
     if (this.state.dragging && this.state.stylePos[id]) {
       const styles = this.state.styles;
       var left = e.screenX - this.state.stylePos[id].diffX;
@@ -114,48 +115,6 @@ class App extends React.Component {
   };
 
 
-
-  componentDidMount = () => this.componentDidUpdate();
-
-
-  componentDidUpdate = () => {
-    const ctx = document.getElementById("c").getContext("2d");
-    ctx.beginPath();
-
-
-    const domTask_1 = document.getElementById(12);
-    const domTask_2 = document.getElementById(22);
-    if (!domTask_1) return
-
-    const fromx = domTask_1.getBoundingClientRect().x + 30;
-    const fromy = domTask_1.getBoundingClientRect().y + 30;
-
-    const tox = domTask_2.getBoundingClientRect().x + 30;
-    const toy = domTask_2.getBoundingClientRect().y + 30;
-
-
-
-
-    canvas_arrow(ctx, fromx, fromy, tox, toy);
-    ctx.stroke();
-
-
-    function canvas_arrow(context, fromx, fromy, tox, toy) {
-      var headlen = 10; // length of head in pixels
-      var dx = tox - fromx;
-      var dy = toy - fromy;
-      var angle = Math.atan2(dy, dx);
-      context.moveTo(fromx, fromy);
-      context.lineTo(tox, toy);
-      context.lineTo(tox - headlen * Math.cos(angle - Math.PI / 6), toy - headlen * Math.sin(angle - Math.PI / 6));
-      context.moveTo(tox, toy);
-      context.lineTo(tox - headlen * Math.cos(angle + Math.PI / 6), toy - headlen * Math.sin(angle + Math.PI / 6));
-    };
-  };
-
-
-
-
   render() {
     const initialPosition = { left: "100px", top: "100px" };
     const domModels = this.props.tasks.domTasks.map(task => {
@@ -166,7 +125,7 @@ class App extends React.Component {
         className={classes}
         key={task.id}
         id={task.id}
-        style={this.state.styles[task.id] ? this.state.styles[task.id] : initialPosition }
+        style={this.state.styles[task.id] ? this.state.styles[task.id] : initialPosition}
         onMouseDown={(e) => this.dragStart(e, task.id)}
         onMouseMove={(e) => this.dragging(e, task.id)}
         onMouseUp={this.dragEnd}
@@ -182,7 +141,7 @@ class App extends React.Component {
       <div className="Row">
         <div className="col-md-2">
           <SideBar
-            addTask={(this.showDrop)}
+            addTask={this.showDrop}
             linkMode={() => this.setState({ linkMode: true })}
           />
         </div>
@@ -190,7 +149,7 @@ class App extends React.Component {
           this.state.showDrop
           && <div className="col-md-2">
             <DetailDropDown
-              addTask={(this.addTask)}
+              addTask={this.addTask}
               addTitle={e => this.setState({ newTask: { ...this.state.newTask, title: e.target.value } })}
             />
           </div>
