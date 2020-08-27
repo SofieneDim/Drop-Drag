@@ -54,9 +54,6 @@ const initialState = {
 };
 
 const tasksReducer = function (state = initialState, action) {
-    console.log('home:', home)
-    console.log('money:', money)
-    console.log('letter:', letter)
     let domTasks = null;
     switch (action.type) {
         case actionTypes.ADD_TASK:

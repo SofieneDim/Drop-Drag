@@ -49,6 +49,16 @@ class App extends React.Component {
     secondLinkTaskId: null,
   };
 
+
+
+  componentDidMount = () => {
+    this.props.getTasksModels();
+  };
+
+
+
+
+
   dragStart = (e, taskId) => {
     if (this.state.linkMode)
       this.linkTasks(taskId);
@@ -176,6 +186,9 @@ const mapDispatchToProps = dispatch => {
   return {
     addNewTask: task => dispatch(actionsCreator.addTask(task)),
     updateTask: data => dispatch(actionsCreator.updateTask(data)),
+
+
+    getTasksModels: () => dispatch(actionsCreator.getTasksModels()),
   };
 };
 
