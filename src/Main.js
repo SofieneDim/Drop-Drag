@@ -14,12 +14,8 @@ const store = createStore(rootReducer, composeEnheancers(applyMiddleware(logger,
 
 class Main extends React.Component {
 
-    
-
     render() {
-
         return (
-
             <Provider store={store}>
                 <App />
             </Provider>
