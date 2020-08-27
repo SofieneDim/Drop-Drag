@@ -4,18 +4,19 @@
   cursor: move;
 }
 
-.tasks-container-border{
+.tasks-container-border {
   color: rgb(10, 10, 10);
   position: absolute;
   cursor: pointer;
   border: cornflowerblue solid 2px;
-  /* background-color: crimson; */
+  width: min-content;
 }
 
-.tasks-container-border-bg{
+.tasks-container-border-bg {
   color: rgb(10, 10, 10);
   position: absolute;
   cursor: move;
   border: cornflowerblue solid 2px;
-  background-color: crimson;
+  width: min-content;
+  background-color: rgb(20, 157, 220);
 }
