@@ -76,6 +76,7 @@ class App extends React.Component {
         task,
         link: this.state.secondLinkTaskId,
       });
+      this.props.addArrow();
       this.setState({ linkMode: false, firstLinkTaskId: null, secondLinkTaskId: null });
     };
   };
@@ -101,16 +102,21 @@ class App extends React.Component {
     });
   };
 
-  showDrop = taskId => {
-    const newTask = { id: taskId };
+  showDrop = (modelId, taskId) => {
+    const newTask = { taskId: taskId, modelId: modelId };
     this.setState({ showDrop: true, newTask });
   };
 
   addTask = () => {
     this.setState({ showDrop: false });
     const newTask = this.state.newTask;
-    const taskModel = this.props.tasks.tasksModels[newTask.id];
+    // console.log('newTask.modelId:', newTask.modelId)
+
+    const taskModel = { ...this.props.tasks.tasksModels[newTask.modelId] };
+
     taskModel.title = newTask.title;
+    taskModel.id = newTask.taskId;
+
     this.props.addNewTask(taskModel);
   };
 

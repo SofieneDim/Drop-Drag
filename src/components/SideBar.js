@@ -6,19 +6,26 @@ import Task from './task';
 
 class sideBar extends React.Component {
 
+    state = {
+        taskId: 15,
+    };
 
+    addTask = async modelId => {
+        await this.setState({ taskId: this.state.taskId + 1 });
+        this.props.addTask(modelId, this.state.taskId);
+    };
 
     render() {
 
-        const tasks = this.props.tasksModels
-        const values = Object.values(tasks).map(task =>
+        const tasks = { ...this.props.tasksModels }
+        const values = Object.values(tasks).map(model =>
             <button
-                key={task.id}
+                key={model.id}
                 id="side-bar-button"
-                onClick={() => this.props.addTask(task.id)}
+                onClick={() => this.addTask(model.id)}
             >
                 <Task
-                    task={task}
+                    task={model}
                 />
             </button>
         );
