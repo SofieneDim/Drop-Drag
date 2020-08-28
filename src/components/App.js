@@ -50,7 +50,6 @@ class App extends React.Component {
     };
 
     render() {
-
         const arrows = this.state.arrowsIds.map(arrowId =>
             <canvas id={arrowId} key={arrowId} width="1000" height="500" style={{ position: "absolute" }} />
         );

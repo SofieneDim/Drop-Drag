@@ -1,6 +1,6 @@
 import * as actionTypes from '../actions/actionsTypes';
 import updateObject from '../../utils/updateObject';
-import task from '../../components/task';
+// import task from '../../components/task';
 
 // import userMale from '../../assets/icons/user-male.png';
 // import home from '../../assets/icons/home.png';
