@@ -134,20 +134,38 @@ class App extends React.Component {
     const clickedTask = this.props.tasks.domTasks.filter(item => item.id === taskId)[0];
     const modelId = clickedTask.modelId;
     const taskModel = { ...this.props.tasks.tasksModels[modelId] };
-    const newTask = { 
+    const newTask = {
       ...taskModel,
-      taskId: newTaskId, 
+      taskId: newTaskId,
       id: newTaskId,
       modelId
-     };
+    };
     this.props.addNewTask(newTask);
   };
 
 
 
   render() {
-    const initialPosition = { left: "9px", top: "61px" };
     const domTasks = this.props.tasks.domTasks.reverse().map(task => {
+      const initialPosition = { left: "9px", top: "61px" };
+      switch (task.id) {
+        case 1:
+          initialPosition.top = "61px";
+          break;
+        case 2:
+          initialPosition.top = "150px";
+          break;
+        case 3:
+          initialPosition.top = "300px";
+          break;
+        case 4:
+          initialPosition.top = "400px";
+          break;
+        default:
+          break;
+      }
+
+      console.log('initialPosition', initialPosition)
       const classes = task.id === this.state.secondLinkTaskId || task.id === this.state.firstLinkTaskId
         ? "tasks-container-border-bg"
         : !this.state.linkMode ? "tasks-container" : "tasks-container-border";
@@ -155,7 +173,7 @@ class App extends React.Component {
         className={classes}
         key={task.id}
         id={task.id}
-        style={this.state.styles[task.id] ? this.state.styles[task.id] : initialPosition}
+        style={this.state.styles[task.id] ? this.state.styles[task.id] : initialPosition} // ******
         onMouseDown={(e) => this.dragStart(e, task.id)}
         onMouseMove={(e) => this.dragging(e, task.id)}
         onMouseUp={this.dragEnd}
