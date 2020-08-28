@@ -39,19 +39,20 @@ class App extends React.Component {
     ],
     diffX: 0,
     diffY: 0,
-    dragging: false,
-    showDrop: false,
-    linkMode: false,
     styles: {
       "1": { left: "8px", top: "80px" },
       "2": { left: "8px", top: "197px" },
       "3": { left: "8px", top: "310px" },
       "4": { left: "8px", top: "425px" },
     },
-    stylePos: {},
-    newTask: { taskId: 0, modelId: 0 },
+    dragging: false,
+    showDrop: false,
+    linkMode: false,
+    fromOrigin: false,
     firstLinkTaskId: null,
     secondLinkTaskId: null,
+    stylePos: {},
+    newTask: { taskId: 0, modelId: 0 },
   };
 
   dragStart = (e, taskId) => {
@@ -68,6 +69,7 @@ class App extends React.Component {
       this.setState({
         stylePos,
         dragging: true,
+        fromOrigin: true,
       });
     };
   };
@@ -101,10 +103,20 @@ class App extends React.Component {
   };
 
 
-  dragEnd = () => {
+  dragEnd = (e, taskId) => {
     this.setState({
       dragging: false
     });
+    if (this.state.fromOrigin) return this.setState({ fromOrigin: false });
+    const task = this.props.tasks.domTasks.filter(item => item.id === taskId)[0];
+    const domTask = document.getElementById(task.id);
+    const left = domTask.getBoundingClientRect().left;
+    const top = domTask.getBoundingClientRect().top;
+    const newTask = {
+      ...task,
+      initialPosition: { left, top },
+    };
+    this.props.updateTask({ taskId, newTask });
   };
 
   showDrop = (modelId, taskId) => {
@@ -121,24 +133,18 @@ class App extends React.Component {
     this.props.addNewTask(taskModel);
   };
 
-
-
   addTask_2 = taskId => {
     const id = this.props.tasks.domTasks.length;
     const newTaskId = "task_" + id;
     const clickedTask = this.props.tasks.domTasks.filter(item => item.id === taskId)[0];
     const modelId = clickedTask.modelId;
     const taskModel = { ...this.props.tasks.tasksModels[(modelId - 1)] };
-    // console.log('modelId:', modelId)
-    // console.log('this.props.tasks.tasksModels[modelId]:', this.props.tasks.tasksModels[0])
     const newTask = {
       ...taskModel,
       taskId: newTaskId,
       id: newTaskId,
       modelId
     };
-    // console.log('newTask:', newTask)
-    console.log('newTask:', newTask)
     this.props.addNewTask(newTask);
   };
 
@@ -157,7 +163,7 @@ class App extends React.Component {
         style={this.state.styles[task.id] ? this.state.styles[task.id] : initialPosition}
         onMouseDown={(e) => this.dragStart(e, task.id)}
         onMouseMove={(e) => this.dragging(e, task.id)}
-        onMouseUp={this.dragEnd}
+        onMouseUp={(e) => this.dragEnd(e, task.id)}
       >
         <Task
           task={task}

@@ -1,5 +1,6 @@
 import * as actionTypes from '../actions/actionsTypes';
 import updateObject from '../../utils/updateObject';
+import task from '../../components/task';
 
 // import userMale from '../../assets/icons/user-male.png';
 // import home from '../../assets/icons/home.png';
@@ -19,14 +20,20 @@ const tasksReducer = function (state = initialState, action) {
             domTasks.push(action.data);
             const newState = {
                 ...state,
-                domTasks
+                domTasks: domTasks,
             };
             return newState;
         case actionTypes.UPDATE_TASK:
             domTasks = [...state.domTasks];
-            for (let task of domTasks)
-                if (task.id === action.data.task.id)
-                    task.link = action.data.link;
+            if (action.data.link)
+                for (let task of domTasks)
+                    if (task.id === action.data.task.id)
+                        task.link = action.data.link;
+
+            if (action.data.initialState)
+                for (let task of domTasks)
+                    if (task.id === action.data.task.id)
+                        task.initialPosition = action.data.initialState;
             return updateObject(state, [...domTasks]);
 
         case actionTypes.SET_TASKS_MODELS:
