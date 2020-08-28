@@ -19,8 +19,6 @@ const task = props => {
             <div className="col-md-12">
                 <label>{props.task.title}</label>
             </div>
-
-
         </div>
     )
 }

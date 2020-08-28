@@ -6,6 +6,15 @@ import Task from './task';
 
 class sideBar extends React.Component {
 
+
+
+    componentDidMount=()=>{
+        console.log('q', document.getElementById("side-bar-button").offsetTop)
+    }
+
+
+
+
     state = {
         taskId: 15,
     };
@@ -15,8 +24,7 @@ class sideBar extends React.Component {
         this.props.addTask(modelId, this.state.taskId);
     };
 
-    render() {
-
+    render() { 
         const tasks = { ...this.props.tasksModels }
         const tasksModels = Object.values(tasks).map(model =>
             <button

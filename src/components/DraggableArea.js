@@ -134,7 +134,6 @@ class App extends React.Component {
     const clickedTask = this.props.tasks.domTasks.filter(item => item.id === taskId)[0];
     const modelId = clickedTask.modelId;
     const taskModel = { ...this.props.tasks.tasksModels[modelId] };
-    
     const newTask = { 
       ...taskModel,
       taskId: newTaskId, 
@@ -147,7 +146,7 @@ class App extends React.Component {
 
 
   render() {
-    const initialPosition = { left: "100px", top: "100px" };
+    const initialPosition = { left: "9px", top: "61px" };
     const domTasks = this.props.tasks.domTasks.reverse().map(task => {
       const classes = task.id === this.state.secondLinkTaskId || task.id === this.state.firstLinkTaskId
         ? "tasks-container-border-bg"
