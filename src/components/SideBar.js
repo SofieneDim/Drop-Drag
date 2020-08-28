@@ -18,7 +18,7 @@ class sideBar extends React.Component {
     render() {
 
         const tasks = { ...this.props.tasksModels }
-        const values = Object.values(tasks).map(model =>
+        const tasksModels = Object.values(tasks).map(model =>
             <button
                 key={model.id}
                 id="side-bar-button"
@@ -41,7 +41,7 @@ class sideBar extends React.Component {
                 <button onClick={this.props.linkMode}>
                     Link Tasks
                 </button>
-                {values}
+                {tasksModels}
             </div>
         );
     };

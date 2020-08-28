@@ -44,7 +44,7 @@ class App extends React.Component {
     linkMode: false,
     styles: {},
     stylePos: {},
-    newTask: {},
+    newTask: { taskId: 0, modelId: 0 },
     firstLinkTaskId: null,
     secondLinkTaskId: null,
   };
@@ -63,6 +63,12 @@ class App extends React.Component {
     if (this.state.linkMode)
       this.linkTasks(taskId);
     else {
+
+
+      // if(!this.state.dragging)
+      this.showDrop_2(taskId);
+
+
       const stylePos = this.state.stylePos;
       stylePos[taskId] = {
         ...this.state.stylePos,
@@ -92,7 +98,6 @@ class App extends React.Component {
   };
 
   dragging = (e, id) => {
-    // this.props.dragging();
     if (this.state.dragging && this.state.stylePos[id]) {
       const styles = this.state.styles;
       var left = e.screenX - this.state.stylePos[id].diffX;
@@ -113,14 +118,13 @@ class App extends React.Component {
   };
 
   showDrop = (modelId, taskId) => {
-    const newTask = { taskId: "task_" + taskId, modelId: modelId };
+    const newTask = { taskId: "task_" + taskId, modelId };
     this.setState({ showDrop: true, newTask });
   };
 
   addTask = () => {
     this.setState({ showDrop: false });
     const newTask = this.state.newTask;
-    // console.log('newTask.modelId:', newTask.modelId)
 
     const taskModel = { ...this.props.tasks.tasksModels[newTask.modelId] };
 
@@ -131,9 +135,49 @@ class App extends React.Component {
   };
 
 
+
+  showDrop_2 = taskId => {
+    const id = this.props.tasks.domTasks.length;
+    const newTaskId = "task_" + id;
+
+    const clickedTask = this.props.tasks.domTasks.filter(item => item.id === taskId)[0];
+    const modelId = clickedTask.modelId;
+    const taskModel = { ...this.props.tasks.tasksModels[modelId] };
+    
+    const newTask = { 
+      ...taskModel,
+      taskId: newTaskId, 
+      id: newTaskId,
+      modelId
+     };
+
+
+
+    this.props.addNewTask(newTask);
+
+
+
+    // const taskModel = { ...this.props.tasks.tasksModels[task.modelId]};
+    // taskModel.id = newTaskId;
+    // console.log('task.modelId', task.modelId)
+    // this.props.addNewTask(task.modelId + 1);
+    // this.setState({ newTask });
+  };
+
+
+
+    
+
+
+
   render() {
+
+
     const initialPosition = { left: "100px", top: "100px" };
-    const domModels = this.props.tasks.domTasks.map(task => {
+
+
+
+    const domTasks = this.props.tasks.domTasks.reverse().map(task => {
       const classes = task.id === this.state.secondLinkTaskId || task.id === this.state.firstLinkTaskId
         ? "tasks-container-border-bg"
         : !this.state.linkMode ? "tasks-container" : "tasks-container-border";
@@ -157,7 +201,7 @@ class App extends React.Component {
       <div className="Row">
         <div className="col-md-2">
           <SideBar
-            addTask={this.showDrop}
+            addTask={this.showDrop_2}
             linkMode={() => this.setState({ linkMode: true })}
           />
         </div>
@@ -170,7 +214,7 @@ class App extends React.Component {
             />
           </div>
         }
-        {domModels}
+        {domTasks}
       </div>
     );
   };
