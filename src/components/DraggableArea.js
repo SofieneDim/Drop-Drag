@@ -44,7 +44,7 @@ class App extends React.Component {
     linkMode: false,
     styles: {
       "1": { left: "8px", top: "80px" },
-      "2": { left: "8px", top: "200px" },
+      "2": { left: "8px", top: "197px" },
       "3": { left: "8px", top: "310px" },
       "4": { left: "8px", top: "425px" },
     },
@@ -52,11 +52,6 @@ class App extends React.Component {
     newTask: { taskId: 0, modelId: 0 },
     firstLinkTaskId: null,
     secondLinkTaskId: null,
-  };
-
-
-  componentDidMount = () => {
-    // this.props.getTasksModels();
   };
 
   dragStart = (e, taskId) => {
@@ -133,13 +128,17 @@ class App extends React.Component {
     const newTaskId = "task_" + id;
     const clickedTask = this.props.tasks.domTasks.filter(item => item.id === taskId)[0];
     const modelId = clickedTask.modelId;
-    const taskModel = { ...this.props.tasks.tasksModels[modelId] };
+    const taskModel = { ...this.props.tasks.tasksModels[(modelId - 1)] };
+    // console.log('modelId:', modelId)
+    // console.log('this.props.tasks.tasksModels[modelId]:', this.props.tasks.tasksModels[0])
     const newTask = {
       ...taskModel,
       taskId: newTaskId,
       id: newTaskId,
       modelId
     };
+    // console.log('newTask:', newTask)
+    console.log('newTask:', newTask)
     this.props.addNewTask(newTask);
   };
 
@@ -147,7 +146,7 @@ class App extends React.Component {
 
   render() {
     const domTasks = this.props.tasks.domTasks.reverse().map(task => {
-      const initialPosition = this.props.tasks.tasksModels[task.modelId].initialPosition;
+      const initialPosition = this.props.tasks.tasksModels[task.modelId - 1].initialPosition;
       const classes = task.id === this.state.secondLinkTaskId || task.id === this.state.firstLinkTaskId
         ? "tasks-container-border-bg"
         : !this.state.linkMode ? "tasks-container" : "tasks-container-border";
@@ -155,7 +154,7 @@ class App extends React.Component {
         className={classes}
         key={task.id}
         id={task.id}
-        style={this.state.styles[task.id] ? this.state.styles[task.id] : initialPosition} // ******
+        style={this.state.styles[task.id] ? this.state.styles[task.id] : initialPosition}
         onMouseDown={(e) => this.dragStart(e, task.id)}
         onMouseMove={(e) => this.dragging(e, task.id)}
         onMouseUp={this.dragEnd}
@@ -200,9 +199,6 @@ const mapDispatchToProps = dispatch => {
   return {
     addNewTask: task => dispatch(actionsCreator.addTask(task)),
     updateTask: data => dispatch(actionsCreator.updateTask(data)),
-
-
-    getTasksModels: () => dispatch(actionsCreator.getTasksModels()),
   };
 };
 

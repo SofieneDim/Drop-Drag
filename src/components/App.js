@@ -1,13 +1,19 @@
 import React from 'react';
 
-import DraggableArea from "./DraggableArea";
 import { connect } from 'react-redux';
+import * as actionsCreator from '../store/actions';
+
+import DraggableArea from "./DraggableArea";
 
 class App extends React.Component {
 
     state = {
         arrows: [],
         arrowsIds: [],
+    };
+
+    componentDidMount = () => {
+        this.props.getTasks();
     };
 
     displayArrows = (ctx, fromx, fromy, tox, toy) => {
@@ -48,15 +54,16 @@ class App extends React.Component {
         const arrows = this.state.arrowsIds.map(arrowId =>
             <canvas id={arrowId} key={arrowId} width="1000" height="500" style={{ position: "absolute" }} />
         );
-        return ([
-            // <canvas id={"c"} key="1" width="1000" height="500" style={{ position: "absolute" }} />,
-            ...arrows,
-            <DraggableArea
-                key="2"
-                addArrow={this.setArrow}
-            />
-        ]
-        );
+        if (this.props.tasks.domTasks && this.props.tasks.tasksModels) {
+            return ([
+                ...arrows,
+                <DraggableArea
+                    key="2"
+                    addArrow={this.setArrow}
+                />
+            ]);
+        }
+        else return null;
     };
 };
 
@@ -66,4 +73,10 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = dispatch => {
+    return {
+        getTasks: () => dispatch(actionsCreator.getTasks()),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -19,13 +19,11 @@ export const updateTask = data => {
     };
 };
 
-export const getTasksModels = data => {
-
-
+export const getTasks = () => {
 
     return async dispatch => {
         const url = "http://localhost:5000";
-
+        let tasks = {};
         try {
             const headers = {
                 'Content-Type': 'application/json',
@@ -33,7 +31,7 @@ export const getTasksModels = data => {
             };
             const response = await axios.get(url, { headers: headers });
             if (response.status === 200) {
-                console.log('response.status:', response)
+                tasks = response.data;
             };
         } catch (error) {
             console.error(error);
@@ -42,7 +40,7 @@ export const getTasksModels = data => {
 
         dispatch({
             type: actionsTypes.SET_TASKS_MODELS,
-            data: data
+            data: tasks.tasksModels,
         });
     };
 };
