@@ -13,24 +13,28 @@ const initialState = {
             icon: userMale,
             color: "grey",
             Form: "circle",
+            initialPosition: { left: "9px", top: "80px" },
         },
         "2": {
             id: 2,
             icon: home,
             color: "green",
             Form: "circle",
+            initialPosition: { left: "9px", top: "200px" },
         },
         "3": {
             id: 3,
             icon: money,
             color: "red",
             Form: "circle",
+            initialPosition: { left: "9px", top: "310px" },
         },
         "4": {
             id: 4,
             icon: letter,
             color: "brown",
             Form: "circle",
+            initialPosition: { left: "9px", top: "425px" },
         },
     },
     domTasks: [

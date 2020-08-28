@@ -42,7 +42,12 @@ class App extends React.Component {
     dragging: false,
     showDrop: false,
     linkMode: false,
-    styles: {},
+    styles: {
+      "1": { left: "8px", top: "80px" },
+      "2": { left: "8px", top: "200px" },
+      "3": { left: "8px", top: "310px" },
+      "4": { left: "8px", top: "425px" },
+    },
     stylePos: {},
     newTask: { taskId: 0, modelId: 0 },
     firstLinkTaskId: null,
@@ -50,14 +55,9 @@ class App extends React.Component {
   };
 
 
-
   componentDidMount = () => {
-    this.props.getTasksModels();
+    // this.props.getTasksModels();
   };
-
-
-
-
 
   dragStart = (e, taskId) => {
     if (this.state.linkMode)
@@ -147,25 +147,7 @@ class App extends React.Component {
 
   render() {
     const domTasks = this.props.tasks.domTasks.reverse().map(task => {
-      const initialPosition = { left: "9px", top: "61px" };
-      switch (task.id) {
-        case 1:
-          initialPosition.top = "61px";
-          break;
-        case 2:
-          initialPosition.top = "150px";
-          break;
-        case 3:
-          initialPosition.top = "300px";
-          break;
-        case 4:
-          initialPosition.top = "400px";
-          break;
-        default:
-          break;
-      }
-
-      console.log('initialPosition', initialPosition)
+      const initialPosition = this.props.tasks.tasksModels[task.modelId].initialPosition;
       const classes = task.id === this.state.secondLinkTaskId || task.id === this.state.firstLinkTaskId
         ? "tasks-container-border-bg"
         : !this.state.linkMode ? "tasks-container" : "tasks-container-border";
